@@ -6,6 +6,8 @@
 #include "generic_vector.h"
 #include "print_generic_vector.h"
 
+#include "generic_vector_comparators.h"
+
 void genericVectorCreate_test() {
 
     /* creates vector with capacity 1000 */
@@ -132,13 +134,13 @@ void genericVectorPop_test() {
 
     printVectorChar(genericVector5);
     genericVectorPop(genericVector5, &res);
-    printf("res: %c\n", *(char*)res);  /* 11 */
+    printf("res: %c\n", *(char *) res);  /* 11 */
     printVectorChar(genericVector5);
     genericVectorPop(genericVector5, &res);
-    printf("res: %c\n", *(char*)res);  /* 11 */
+    printf("res: %c\n", *(char *) res);  /* 11 */
     printVectorChar(genericVector5);
     genericVectorPop(genericVector5, &res);
-    printf("res: %c\n", *(char*)res);  /* 11 */
+    printf("res: %c\n", *(char *) res);  /* 11 */
     printVectorChar(genericVector5);
     /*printf("%c\n",*(char*)res);*/
 
@@ -162,32 +164,32 @@ void genericVectorRemove_test() {
     genericVectorPush(genericVector5, &c6);
     printVectorChar(genericVector5);
 
-    genericVectorRemove(genericVector5,0,&res);
-    printf("res: %c\n", *(char*)res);  /* 11 */
+    genericVectorRemove(genericVector5, 0, &res);
+    printf("res: %c\n", *(char *) res);  /* 11 */
     printVectorChar(genericVector5);
 
-    genericVectorRemove(genericVector5,4,&res);
-    printf("res: %c\n", *(char*)res);  /* 11 */
+    genericVectorRemove(genericVector5, 4, &res);
+    printf("res: %c\n", *(char *) res);  /* 11 */
     printVectorChar(genericVector5);
 
-    genericVectorRemove(genericVector5,2,&res);
-    printf("res: %c\n", *(char*)res);  /* 11 */
+    genericVectorRemove(genericVector5, 2, &res);
+    printf("res: %c\n", *(char *) res);  /* 11 */
     printVectorChar(genericVector5);
 
     genericVectorDestroy(&genericVector5);
 
 }
 
-void genericVectorGetAndVectorSetElement_test(){
+void genericVectorGetAndVectorSetElement_test() {
     void *res;
     GenericVector *genericVector5 = genericVectorCreate(3);
+    PrintFunc printFunc = printVectorChar;
     char c1 = 'w';
     char c2 = 's';
     char c3 = 'n';
     char c4 = 'l';
     char c5 = 'a';
     char c6 = 'b';
-    char c7 = 'u';
     char c8 = 'p';
     genericVectorPush(genericVector5, &c1);
     genericVectorPush(genericVector5, &c2);
@@ -199,7 +201,7 @@ void genericVectorGetAndVectorSetElement_test(){
 
     /* gets first element */
     genericVectorGetElement(genericVector5, 0, &res);
-    printf("res: %c\n", *(char*)res);  /* 11 */
+    printf("res: %c\n", *(char *) res);
     printVectorChar(genericVector5);
 
 
@@ -207,11 +209,30 @@ void genericVectorGetAndVectorSetElement_test(){
     genericVectorSetElement(genericVector5, 3, &c8);
 
     genericVectorGetElement(genericVector5, 3, &res);
-    printf("res: %c\n", *(char*)res);  /* 11 */
+    printf("res: %c\n", *(char *) res);
     printVectorChar(genericVector5);
-    printGenericVector(&genericVector5,printVectorChar);
+
+    printGenericVector(genericVector5, printFunc);
+
     genericVectorDestroy(&genericVector5);
 
+}
 
+void genericVectorCount_test() {
+    int i = 0;
+    size_t counter;
+    PrintFunc printFunc = printVectorInt;
+    CompareFunc compareFunc=intCompare;
+    int temp[20] = {1, 2, 3, 4, 5, 6, 7, 8, 3, 10, 11, 12, 3, 14, 15, 2, 17, 18, 5, 20};
+    GenericVector *genericVector = genericVectorCreate(3);
+    for (; i < 20; ++i) {
+        genericVectorPush(genericVector, temp + i);
+    }
+    printGenericVector(genericVector, printFunc);
+    counter=genericVectorCount(genericVector,&temp[2],compareFunc);
+    printf("%ld\n",counter);
 
+    counter=genericVectorCount(genericVector,&temp[4],compareFunc);
+    printf("%ld\n",counter);
+    genericVectorDestroy(&genericVector);
 }

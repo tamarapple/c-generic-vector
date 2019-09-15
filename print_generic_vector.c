@@ -22,6 +22,8 @@ void printVectorChar(const GenericVector *genericVector){
     }
     printf("\n");
 }
+
+
 void printVectorDouble(const GenericVector *genericVector){
     int i;
     size_t size = genericVectorGetSize(genericVector);
@@ -31,12 +33,12 @@ void printVectorDouble(const GenericVector *genericVector){
     printf("\n");
 }
 
-void printVectorFloat(const GenericVector *genericVector){
+/*void printVectorFloat(const GenericVector *genericVector){
     int i;
     size_t size = genericVectorGetSize(genericVector);
     for (i = 0; i < size; ++i) {
         printf("%f ", *(float *)(genericVector->m_items[i]));
     }
     printf("\n");
-}
+}*/
 

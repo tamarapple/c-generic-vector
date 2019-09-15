@@ -9,6 +9,7 @@ int main() {
     genericVectorPop_test();
     genericVectorRemove_test();
     genericVectorGetAndVectorSetElement_test();
+    genericVectorCount_test();
 
     return 0;
 }

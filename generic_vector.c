@@ -30,6 +30,7 @@ GenericVector *genericVectorCreate(size_t size) {
         genericVector->m_capacity = size;
         genericVector->m_size = 0;
         genericVector->m_items = malloc(genericVector->m_capacity * sizeof(void *));
+
         /* if vector->arr allocation failed, frees the vector and puts there NULL */
         if (!genericVector->m_items) {
             free(genericVector);
@@ -84,6 +85,10 @@ ErrorCode genericVectorPush(GenericVector *genericVector, void *value) {
 
     /* if vector = NULL, can't push and assert abort thr program  */
     assert(genericVector);
+
+    if (!genericVector) {
+        errorCode = E_NULL_PTR;
+    }
 
     if (isFull(genericVector)) {
         errorCode = resizeGenericVector(genericVector);
@@ -200,8 +205,11 @@ size_t genericVectorGetCapacity(const GenericVector *genericVector) {
 }
 
 /* Counts how many instances of a given value there are */
-size_t genericVectorCount(const GenericVector *genericVector, void *value) {
-    size_t counter = 0;
+size_t genericVectorCount(const GenericVector *genericVector, void *value,CompareFunc comperator) {
+    size_t i=0, counter = 0;
+    size_t vector_size=genericVectorGetSize(genericVector);
+    for(;i<vector_size;++i)
+        counter+=comperator(genericVector->m_items[i],value);
     return counter;
 }
 
@@ -279,6 +287,6 @@ void shiftLeftGenericVector(GenericVector *genericVector, size_t index) {
 }
 
 /* Prints vector elements */
-void printGenericVector(const GenericVector *genericVector,PrintFunc printFunc){
-    printFunc(&genericVector);
+void printGenericVector(const GenericVector *genericVector, PrintFunc printFunc) {
+    printFunc(genericVector);
 }

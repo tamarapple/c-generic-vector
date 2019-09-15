@@ -7,12 +7,17 @@
 
 #include <stddef.h>
 
-typedef struct GenericVector GenericVector;
-typedef void (*PrintFunc) (const GenericVector *genericVector);
-
 typedef enum {
     false, true
 } bool;
+
+typedef struct GenericVector GenericVector;
+
+typedef void (*PrintFunc)(const GenericVector *genericVector);
+
+typedef bool (*CompareFunc)(const void *value_1, const void *value_2);
+
+
 
 typedef enum {
     E_OK,
@@ -34,7 +39,7 @@ struct GenericVector {
 };
 
 /* Creates instance of vector and returns it  */
-GenericVector* genericVectorCreate(size_t size);
+GenericVector *genericVectorCreate(size_t size);
 
 /* Frees vector's allocations */
 void genericVectorDestroy(GenericVector **genericVector);
@@ -58,7 +63,7 @@ ErrorCode genericVectorRemove(GenericVector *genericVector, size_t index, void *
 ErrorCode genericVectorGetElement(const GenericVector *genericVector, size_t index, void **res);
 
 /* sets element in specific index in vector */
-ErrorCode genericVectorSetElement(GenericVector *genericVector, size_t index, void* value);
+ErrorCode genericVectorSetElement(GenericVector *genericVector, size_t index, void *value);
 
 /* Gets vector size */
 size_t genericVectorGetSize(const GenericVector *genericVector);
@@ -67,7 +72,7 @@ size_t genericVectorGetSize(const GenericVector *genericVector);
 size_t genericVectorGetCapacity(const GenericVector *genericVector);
 
 /* Counts how many instances of a given value there are */
-size_t genericVectorCount(const GenericVector *genericVector, void* value);
+size_t genericVectorCount(const GenericVector *genericVector, void *value, CompareFunc comperator);
 
 /* Checks if vector is full, If the vector is full returns true, else returns false */
 bool isFull(const GenericVector *genericVector);
@@ -76,7 +81,7 @@ bool isFull(const GenericVector *genericVector);
 bool isEmpty(const GenericVector *genericVector);
 
 /* Shifts all the elements in vector according the specific direction right or left  */
-ErrorCode shiftGenericVector(GenericVector *genericVector, size_t index, Direction direction );
+ErrorCode shiftGenericVector(GenericVector *genericVector, size_t index, Direction direction);
 
 /* Shifts right all the elements in vector */
 void shiftRightGenericVector(GenericVector *genericVector, size_t index);
@@ -85,6 +90,6 @@ void shiftRightGenericVector(GenericVector *genericVector, size_t index);
 void shiftLeftGenericVector(GenericVector *genericVector, size_t index);
 
 /* Prints vector elements */
-void printGenericVector(const GenericVector *genericVector,PrintFunc printFunc);
+void printGenericVector(const GenericVector *genericVector, PrintFunc printFunc);
 
 #endif /* GENERICVECTOR_GENERIC_VECTOR_H */
